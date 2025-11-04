@@ -1,49 +1,41 @@
 import matplotlib.pyplot as plt
 import matplotlib.image as mpimg
-import cv2
+import webbrowser
+import vlc
+import time
 
 def celsius_a_fahrenheit(celsius: float) -> float:
-    """Convierte grados Celsius a Fahrenheit"""
     return (celsius * 9/5) + 32
 
 def tabla_multiplicar(numero: int):
-    """Muestra la tabla de multiplicar del 1 al 10"""
     for i in range(1, 11):
         print(f"{numero} x {i} = {numero * i}")
 
 def mostrar_imagen():
-    """Muestra una imagen en una ventana usando matplotlib"""
     try:
-        img = mpimg.imread("rafaelalberti.jpg")  # pon aquí tu archivo
+        img = mpimg.imread("rafaelalberti.jpg")
         plt.imshow(img)
         plt.axis("off")
         plt.show()
     except FileNotFoundError:
-        print("No se encontró la imagen. Asegúrate de que está en la misma carpeta que el programa.")
+        print("No se encontró la imagen.")
 
-def reproducir_video():
-    """Reproduce un vídeo en una ventana usando OpenCV"""
+def reproducir_video_externo():
+    """Abrir vídeo con el reproductor predeterminado (con sonido)."""
     try:
-        cap = cv2.VideoCapture("intro anime.mp4")  # pon aquí tu archivo
-
-        if not cap.isOpened():
-            print("No se pudo abrir el vídeo.")
-            return
-
-        while cap.isOpened():
-            ret, frame = cap.read()
-            if not ret:
-                break
-            cv2.imshow("Reproducción de video", frame)
-
-            # salir con la tecla q
-            if cv2.waitKey(25) & 0xFF == ord('q'):
-                break
-
-        cap.release()
-        cv2.destroyAllWindows()
+        webbrowser.open("intro anime slayers.mp4")
     except Exception as e:
-        print(f"Error al reproducir el vídeo: {e}")
+        print(f"Error al abrir el vídeo: {e}")
+
+def reproducir_video_vlc():
+    """Reproducir vídeo con VLC (con sonido)."""
+    try:
+        player = vlc.MediaPlayer("video.mp4")
+        player.play()
+        # Mantener el programa vivo mientras se reproduce
+        time.sleep(90)  # ajusta según la duración del vídeo
+    except Exception as e:
+        print(f"Error al reproducir con VLC: {e}")
 
 def menu():
     while True:
@@ -51,8 +43,9 @@ def menu():
         print("1) Conversión de temperatura")
         print("2) Tabla de multiplicar")
         print("3) Mostrar imagen")
-        print("4) Reproducir vídeo")
-        print("5) Salir")
+        print("4) Reproducir vídeo (reproductor externo)")
+        print("5) Reproducir vídeo (VLC)")
+        print("6) Salir")
 
         opcion = input("Elige una opción: ")
 
@@ -75,9 +68,12 @@ def menu():
             mostrar_imagen()
         
         elif opcion == "4":
-            reproducir_video()
+            reproducir_video_externo()
         
         elif opcion == "5":
+            reproducir_video_vlc()
+        
+        elif opcion == "6":
             print("Saliendo del programa...")
             break
         
