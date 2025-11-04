@@ -30,7 +30,7 @@ def reproducir_video_externo():
 def reproducir_video_vlc():
     """Reproducir vídeo con VLC (con sonido)."""
     try:
-        player = vlc.MediaPlayer("video.mp4")
+        player = vlc.MediaPlayer("intro anime slayers.mp4")
         player.play()
         # Mantener el programa vivo mientras se reproduce
         time.sleep(90)  # ajusta según la duración del vídeo
